@@ -1,0 +1,81 @@
+command /kit [<text>]:
+	trigger:
+		if arg 1 is not set:
+			send "&c(&4!&c) Please Select a kit!"
+		if arg 1 is "h" or "hkit":
+			if player is a op:
+				set {_player} to player
+				loop {hkit::*}:
+					if loop-value is not {hkit::arrow}:
+						give player 1 of loop-value
+					if loop-value is {hkit::arrow}:
+						give player 64 of loop-value
+				execute console command "/title %{_player}% subtitle {""text"":""enjoy!"",""color"":""dark_red"",""bold"":true,""italic"":true,""underlined"":false,""strikethrough"":false,""obfuscated"":false}"
+				execute console command "/title %{_player}% title {""text"":""Hkit"",""color"":""red"",""bold"":true,""italic"":false,""underlined"":true,""strikethrough"":false,""obfuscated"":false}"
+				execute console command "/title %{_player}% actionbar {""text"":""nohhere"",""color"":""black"",""bold"":true,""italic"":false,""underlined"":false,""strikethrough"":false,""obfuscated"":true}"
+				send "ok %{_player}%"
+			if player is not a op:
+				send "&c(&4!&c) no"
+command /tst:
+	trigger:
+		send "no"
+command /kits:
+	trigger:
+		send "&4&l&nhkit&r &l|&r literally &l|&r no &l|&r other &l|&r kits &l|&r other &l|&r than &l|&r &4&l&nhkit&r"
+on rightclick holding a stick:
+	set {_item} to player's tool
+	set {_a} to location of target block
+	set {_x} to x coord of {_a}
+	set {_y} to y coord of {_a}
+	set {_z} to z coord of {_a}
+	if {_x} is a number:
+		if "%{_item}%" is "%{hkit::staff}%":
+			set {y} to {_y}+1
+			make player execute command "/summon minecraft:lightning_bolt %{_x}% %{_y}% %{_z}%"
+on leftclick holding a stick:
+	set {_item} to player's tool
+	if "%{_item}%" is "%{hkit::staff}%":
+		shoot a fireball from player
+		wait 5 ticks
+		shoot a fireball from player
+		wait 5 ticks
+		shoot a fireball from player
+		wait 5 ticks
+		shoot a fireball from player
+		wait 5 ticks
+		shoot a fireball from player
+on armor change:
+	if "%event-item%" is "%{hkit::helmet}%":
+		apply night vision 255 to event-player for 9999 days
+	if "%event-item%" is "%{hkit::chestplate}%":
+		set {player::elytra} to 1
+		apply regeneration 255 to event-player for 9999 days
+		apply absorption 255 to event-player for 9999 days
+		apply resistance 255 to event-player for 9999 days
+		apply fire resistance 255 to event-player for 9999 days
+	if "%event-item%" is "%{hkit::leggings}%":
+		apply Conduit Power 255 to event-player for 9999 days
+		apply Dolphin's Grace 255 to event-player for 9999 days
+		apply Haste 255 to event-player for 9999 days
+		apply Strength 255 to event-player for 9999 days
+	if "%event-item%" is "%{hkit::boots}%":
+		apply speed 1 to event-player for 9999 days
+		apply jump boost 3 to event-player for 9999 days
+	if "%event-item%" is "air":
+		if {player::elytra} is 1:
+			if chestplate of player is not {hkit::chestplate}:
+				remove regeneration from event-player
+				remove absorption from event-player
+				remove resistance from event-player
+				remove fire resistance from event-player
+on armor unequip:
+	if "%event-item%" is "%{hkit::helmet}%":
+		remove night vision from event-player
+	if "%event-item%" is "%{hkit::leggings}%":
+		remove Conduit Power from event-player
+		remove Dolphin's Grace from event-player
+		remove Haste from event-player
+		remove Strength from event-player
+	if "%event-item%" is "%{hkit::boots}%":
+		remove speed from event-player
+		remove jump boost from event-player
